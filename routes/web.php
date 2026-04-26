@@ -5,10 +5,18 @@ use App\Http\Controllers\EmpleadorController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SectorController;
 
 // Ruta publica
 Route::get('/', function () {
     return view('welcome');
+});
+
+// Rutas publicas sector ladrillero
+Route::prefix('sector')->name('sector.')->group(function () {
+    Route::get('/', [SectorController::class, 'index'])->name('index');
+    Route::get('/productos', [SectorController::class, 'productos'])->name('productos');
+    Route::get('/contacto', [SectorController::class, 'contacto'])->name('contacto');
 });
 
 // Rutas de perfil de Breeze
