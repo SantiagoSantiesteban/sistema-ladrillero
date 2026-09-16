@@ -59,4 +59,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::delete('/usuarios/{user}', [AdminController::class, 'eliminarUsuario'])->name('usuarios.eliminar');
 });
 
+// Ruta optimizacion
+use App\Http\Controllers\OptimizacionController;
+Route::get('/optimizacion', [OptimizacionController::class, 'medirConsultas'])->name('optimizacion');
+
 require __DIR__.'/auth.php';
