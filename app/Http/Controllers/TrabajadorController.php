@@ -3,48 +3,72 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Disponibilidad;
+use App\Models\FechaDisponible;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class TrabajadorController extends Controller
 {
     public function index()
     {
-        $disponibilidad = Auth::user()->disponibilidad;
-        return view('trabajador.index', compact('disponibilidad'));
+        $hoy = Carbon::today();
+        $limite = Carbon::today()->addDays(15);
+
+        $fechasDisponibles = Auth::user()
+            ->fechasDisponibles()
+            ->whereBetween('fecha', [$hoy, $limite])
+            ->where('disponible', true)
+            ->pluck('fecha')
+            ->map(fn($f) => $f->format('Y-m-d'))
+            ->toArray();
+
+        return view('trabajador.index', compact('fechasDisponibles', 'hoy', 'limite'));
     }
 
     public function editarDisponibilidad()
     {
-        $disponibilidad = Auth::user()->disponibilidad;
-        return view('trabajador.disponibilidad', compact('disponibilidad'));
+        $hoy = Carbon::today();
+        $limite = Carbon::today()->addDays(15);
+
+        $fechasDisponibles = Auth::user()
+            ->fechasDisponibles()
+            ->whereBetween('fecha', [$hoy, $limite])
+            ->pluck('fecha')
+            ->map(fn($f) => $f->format('Y-m-d'))
+            ->toArray();
+
+        return view('trabajador.disponibilidad', compact('fechasDisponibles', 'hoy', 'limite'));
     }
 
     public function guardarDisponibilidad(Request $request)
     {
-        $datos = $request->validate([
-            'lunes' => 'boolean',
-            'martes' => 'boolean',
-            'miercoles' => 'boolean',
-            'jueves' => 'boolean',
-            'viernes' => 'boolean',
-            'sabado' => 'boolean',
-            'domingo' => 'boolean',
-            'descripcion' => 'nullable|string|max:500',
+        $request->validate([
+            'fechas' => 'nullable|array',
+            'fechas.*' => 'date|after_or_equal:today',
         ]);
 
-        $datos['lunes'] = $request->has('lunes');
-        $datos['martes'] = $request->has('martes');
-        $datos['miercoles'] = $request->has('miercoles');
-        $datos['jueves'] = $request->has('jueves');
-        $datos['viernes'] = $request->has('viernes');
-        $datos['sabado'] = $request->has('sabado');
-        $datos['domingo'] = $request->has('domingo');
+        $hoy = Carbon::today();
+        $limite = Carbon::today()->addDays(15);
 
-        Disponibilidad::updateOrCreate(
-            ['user_id' => Auth::id()],
-            $datos
-        );
+        // Eliminar disponibilidades anteriores en el rango
+        Auth::user()
+            ->fechasDisponibles()
+            ->whereBetween('fecha', [$hoy, $limite])
+            ->delete();
+
+        // Guardar las nuevas fechas seleccionadas
+        if ($request->fechas) {
+            foreach ($request->fechas as $fecha) {
+                $fechaCarbon = Carbon::parse($fecha);
+                if ($fechaCarbon->between($hoy, $limite)) {
+                    FechaDisponible::create([
+                        'user_id' => Auth::id(),
+                        'fecha' => $fecha,
+                        'disponible' => true,
+                    ]);
+                }
+            }
+        }
 
         return redirect()->route('trabajador.index')
             ->with('success', 'Disponibilidad actualizada correctamente.');
