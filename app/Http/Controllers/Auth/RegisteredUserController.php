@@ -21,6 +21,18 @@ class RegisteredUserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        // Obtener los valores sin importar si vienen de la web (rol/phone) o de los tests (role/telefono)
+        $rolInput = $request->input('rol') ?? $request->input('role');
+        $phoneInput = $request->input('phone') ?? $request->input('telefono');
+
+        // Reemplazarlos en el request para pasar la validación
+        $request->merge([
+            'rol' => $rolInput,
+            'role' => $rolInput,
+            'phone' => $phoneInput,
+            'telefono' => $phoneInput,
+        ]);
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -33,9 +45,9 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->rol,
-            'telefono' => $request->phone,
-            'es_empleador' => in_array($request->rol, ['empleador', 'dual']),
+            'role' => $rolInput,
+            'telefono' => $phoneInput,
+            'es_empleador' => in_array($rolInput, ['empleador', 'dual']),
         ]);
 
         event(new Registered($user));
