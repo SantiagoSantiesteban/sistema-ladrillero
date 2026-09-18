@@ -30,10 +30,9 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold text-gray-800">Bienvenido, {{ Auth::user()->name }}</h3>
-                        <p class="text-gray-500 text-sm">Gestiona tu perfil y disponibilidad laboral desde aquí.</p>
+                        <p class="text-gray-500 text-sm">Gestiona tu disponibilidad laboral para los próximos 15 días.</p>
                     </div>
                 </div>
-
                 @if(Auth::user()->telefono)
                     <div class="mt-4 flex items-center space-x-2 text-sm text-gray-600">
                         <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -53,32 +52,25 @@
                         </svg>
                         <h3 class="text-lg font-semibold text-gray-800">Mi Disponibilidad</h3>
                     </div>
+                    <span class="text-xs text-gray-400">Próximos 15 días</span>
                 </div>
 
-                @if($disponibilidad)
-                    <div class="grid grid-cols-7 gap-2 mb-4">
-                        @foreach([
-                            'lunes' => 'L',
-                            'martes' => 'M',
-                            'miercoles' => 'X',
-                            'jueves' => 'J',
-                            'viernes' => 'V',
-                            'sabado' => 'S',
-                            'domingo' => 'D'
-                        ] as $dia => $letra)
-                            <div class="text-center">
-                                <p class="text-xs font-semibold text-gray-400 mb-1">{{ $letra }}</p>
-                                <div class="py-3 rounded-lg text-xs font-semibold border-2
-                                    {{ $disponibilidad->$dia
-                                    ? 'bg-orange-500 border-orange-500 text-white'
-                                    : 'bg-white border-gray-200 text-gray-400' }}">
-                                    {{ strtoupper(substr($dia, 0, 3)) }}
-                                </div>
-                            </div>
-                        @endforeach
+                @if(count($fechasDisponibles) > 0)
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-500 mb-3">Días marcados como disponible:</p>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($fechasDisponibles as $fecha)
+                                <span class="inline-flex items-center space-x-1 bg-orange-50 border border-orange-200 text-orange-700 text-xs font-medium px-3 py-1.5 rounded-full">
+                                    <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>{{ \Carbon\Carbon::parse($fecha)->locale('es')->isoFormat('ddd D MMM') }}</span>
+                                </span>
+                            @endforeach
+                        </div>
                     </div>
 
-                    <!-- Mini calendario -->
+                    <!-- Calendario vista -->
                     <div class="border border-gray-200 rounded-xl overflow-hidden mb-5">
                         <div class="bg-gray-50 px-4 py-2 flex items-center justify-between border-b border-gray-200">
                             <h4 class="text-sm font-semibold text-gray-700" id="mesActual"></h4>
@@ -102,10 +94,6 @@
                         </div>
                         <div class="grid grid-cols-7" id="diasCalendario"></div>
                     </div>
-
-                    @if($disponibilidad->descripcion)
-                        <p class="text-gray-600 text-sm bg-gray-50 rounded-lg p-3 mb-4">{{ $disponibilidad->descripcion }}</p>
-                    @endif
                 @else
                     <div class="flex items-center space-x-3 bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-5">
                         <svg class="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -120,80 +108,78 @@
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
-                    <span>{{ $disponibilidad ? 'Editar disponibilidad' : 'Registrar disponibilidad' }}</span>
+                    <span>{{ count($fechasDisponibles) > 0 ? 'Editar disponibilidad' : 'Registrar disponibilidad' }}</span>
                 </a>
             </div>
 
         </div>
     </div>
 
-@if($disponibilidad)
-<script>
-    const diasDisponibles = {
-        lunes: {{ $disponibilidad->lunes ? 'true' : 'false' }},
-        martes: {{ $disponibilidad->martes ? 'true' : 'false' }},
-        miercoles: {{ $disponibilidad->miercoles ? 'true' : 'false' }},
-        jueves: {{ $disponibilidad->jueves ? 'true' : 'false' }},
-        viernes: {{ $disponibilidad->viernes ? 'true' : 'false' }},
-        sabado: {{ $disponibilidad->sabado ? 'true' : 'false' }},
-        domingo: {{ $disponibilidad->domingo ? 'true' : 'false' }},
-    };
+    @if(count($fechasDisponibles) > 0)
+    <script>
+        const fechasDisponibles = @json($fechasDisponibles);
+        const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+        let fechaActual = new Date();
 
-    const mapaDias = ['domingo','lunes','martes','miercoles','jueves','viernes','sabado'];
-    const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-    let fechaActual = new Date();
+        function cambiarMes(delta) {
+            fechaActual.setMonth(fechaActual.getMonth() + delta);
+            renderCalendario();
+        }
 
-    function cambiarMes(delta) {
-        fechaActual.setMonth(fechaActual.getMonth() + delta);
+        function formatFecha(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function renderCalendario() {
+            const año = fechaActual.getFullYear();
+            const mes = fechaActual.getMonth();
+            const hoy = new Date();
+
+            document.getElementById('mesActual').textContent = meses[mes] + ' ' + año;
+
+            const primerDia = new Date(año, mes, 1);
+            const ultimoDia = new Date(año, mes + 1, 0);
+
+            let inicioSemana = primerDia.getDay();
+            inicioSemana = inicioSemana === 0 ? 6 : inicioSemana - 1;
+
+            const contenedor = document.getElementById('diasCalendario');
+            contenedor.innerHTML = '';
+
+            for (let i = 0; i < inicioSemana; i++) {
+                const celda = document.createElement('div');
+                celda.className = 'py-3 border-r border-b border-gray-100 bg-gray-50';
+                contenedor.appendChild(celda);
+            }
+
+            for (let dia = 1; dia <= ultimoDia.getDate(); dia++) {
+                const fecha = new Date(año, mes, dia);
+                const fechaStr = formatFecha(fecha);
+                const disponible = fechasDisponibles.includes(fechaStr);
+                const esHoy = fecha.toDateString() === hoy.toDateString();
+
+                const celda = document.createElement('div');
+                celda.className = `py-3 border-r border-b border-gray-100 text-center
+                    ${disponible ? 'bg-orange-50' : 'bg-white'}
+                    ${esHoy ? 'ring-2 ring-inset ring-orange-400' : ''}`;
+
+                celda.innerHTML = `
+                    <span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-medium
+                        ${disponible ? 'bg-orange-500 text-white' : esHoy ? 'text-orange-600 font-bold' : 'text-gray-500'}">
+                        ${dia}
+                    </span>
+                    ${disponible ? '<p class="text-xs text-orange-500 mt-1">Disp.</p>' : '<p class="text-xs text-gray-200 mt-1">-</p>'}
+                `;
+
+                contenedor.appendChild(celda);
+            }
+        }
+
         renderCalendario();
-    }
+    </script>
+    @endif
 
-    function renderCalendario() {
-        const año = fechaActual.getFullYear();
-        const mes = fechaActual.getMonth();
-        const hoy = new Date();
-
-        document.getElementById('mesActual').textContent = meses[mes] + ' ' + año;
-
-        const primerDia = new Date(año, mes, 1);
-        const ultimoDia = new Date(año, mes + 1, 0);
-
-        let inicioSemana = primerDia.getDay();
-        inicioSemana = inicioSemana === 0 ? 6 : inicioSemana - 1;
-
-        const contenedor = document.getElementById('diasCalendario');
-        contenedor.innerHTML = '';
-
-        for (let i = 0; i < inicioSemana; i++) {
-            const celda = document.createElement('div');
-            celda.className = 'py-3 border-r border-b border-gray-100 bg-gray-50';
-            contenedor.appendChild(celda);
-        }
-
-        for (let dia = 1; dia <= ultimoDia.getDate(); dia++) {
-            const fecha = new Date(año, mes, dia);
-            const diaSemana = mapaDias[fecha.getDay()];
-            const disponible = diasDisponibles[diaSemana];
-            const esHoy = fecha.toDateString() === hoy.toDateString();
-
-            const celda = document.createElement('div');
-            celda.className = `py-3 border-r border-b border-gray-100 text-center text-sm transition-all
-                ${disponible ? 'bg-orange-50' : 'bg-white'}
-                ${esHoy ? 'ring-2 ring-inset ring-orange-400' : ''}`;
-
-            celda.innerHTML = `
-                <span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-medium
-                    ${disponible ? 'bg-orange-500 text-white' : esHoy ? 'text-orange-600 font-bold' : 'text-gray-600'}">
-                    ${dia}
-                </span>
-                ${disponible ? '<p class="text-xs text-orange-500 mt-1">Disp.</p>' : '<p class="text-xs text-gray-300 mt-1">-</p>'}
-            `;
-
-            contenedor.appendChild(celda);
-        }
-    }
-
-    renderCalendario();
-</script>
-@endif
 </x-app-layout>

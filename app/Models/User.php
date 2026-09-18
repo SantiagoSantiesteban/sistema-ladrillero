@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Disponibilidad::class);
     }
+
+    public function fechasDisponibles()
+    {
+        return $this->hasMany(FechaDisponible::class);
+    }
 }

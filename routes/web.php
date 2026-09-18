@@ -6,6 +6,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SectorController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\OptimizacionController;
 
 // Ruta publica
 Route::get('/', function () {
@@ -57,6 +59,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/usuarios', [AdminController::class, 'usuarios'])->name('usuarios');
     Route::patch('/usuarios/{user}/rol', [AdminController::class, 'editarRol'])->name('usuarios.rol');
     Route::delete('/usuarios/{user}', [AdminController::class, 'eliminarUsuario'])->name('usuarios.eliminar');
+    Route::get('/optimizacion', [OptimizacionController::class, 'medirConsultas'])->name('optimizacion');
 });
 
 require __DIR__.'/auth.php';
