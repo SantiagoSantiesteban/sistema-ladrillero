@@ -15,6 +15,28 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @if(Auth::user()->esTrabajador())
+                        <x-nav-link :href="route('trabajador.index')" :active="request()->routeIs('trabajador.*')">
+                            {{ __('Mi Disponibilidad') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if(Auth::user()->esEmpleador())
+                        <x-nav-link :href="route('empleador.index')" :active="request()->routeIs('empleador.*')">
+                            {{ __('Buscar Trabajadores') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if(Auth::user()->esAdmin())
+                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.*')">
+                            {{ __('Administración') }}
+                        </x-nav-link>
+                    @endif
+
+                    <x-nav-link :href="route('sector.index')" :active="request()->routeIs('sector.*')">
+                        {{ __('Sector Ladrillero') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -69,6 +91,28 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            @if(Auth::user()->esTrabajador())
+                <x-responsive-nav-link :href="route('trabajador.index')" :active="request()->routeIs('trabajador.*')">
+                    {{ __('Mi Disponibilidad') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if(Auth::user()->esEmpleador())
+                <x-responsive-nav-link :href="route('empleador.index')" :active="request()->routeIs('empleador.*')">
+                    {{ __('Buscar Trabajadores') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if(Auth::user()->esAdmin())
+                <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.*')">
+                    {{ __('Administración') }}
+                </x-responsive-nav-link>
+            @endif
+
+            <x-responsive-nav-link :href="route('sector.index')" :active="request()->routeIs('sector.*')">
+                {{ __('Sector Ladrillero') }}
             </x-responsive-nav-link>
         </div>
 

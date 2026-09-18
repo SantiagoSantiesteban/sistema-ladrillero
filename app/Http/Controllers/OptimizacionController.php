@@ -10,6 +10,9 @@ class OptimizacionController extends Controller
 {
     public function medirConsultas()
     {
+        if (!auth()->user()->esAdmin()) {
+            abort(403, 'No autorizado');
+        }
         $resultados = [];
 
         // Consulta 1: Buscar trabajadores por rol
