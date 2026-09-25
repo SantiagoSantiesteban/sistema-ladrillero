@@ -62,4 +62,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/optimizacion', [OptimizacionController::class, 'medirConsultas'])->name('optimizacion');
 });
 
+Route::get('/contacto', [ContactController::class, 'create'])->name('contact.create');
+Route::post('/contacto', [ContactController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('contact.store');
+
 require __DIR__.'/auth.php';

@@ -8,19 +8,32 @@
 </head>
 <body class="bg-gray-50">
 
-    <!-- Navbar -->
-    <nav class="bg-orange-700 text-white px-6 py-4 flex justify-between items-center">
-        <!-- Logo/Título hace de enlace al inicio principal -->
-        <a href="{{ url('/') }}" class="group">
-            <h1 class="text-xl font-bold group-hover:text-orange-200 transition">Sector Ladrillero</h1>
-            <p class="text-xs text-orange-200">Patio Bonito, Nemocón</p>
+   <!-- Navbar -->
+    <!-- Navbar Unificado del Sector -->
+    <nav class="bg-orange-700 text-white px-6 py-4 flex flex-wrap justify-between items-center shadow-md">
+        <!-- Logo / Nombre -->
+        <a href="{{ url('/') }}" class="group flex flex-col">
+            <span class="text-xl font-bold group-hover:text-orange-200 transition leading-tight">Sector Ladrillero</span>
+            <span class="text-xs text-orange-200">Patio Bonito, Nemocón</span>
         </a>
-        <div class="flex space-x-4 text-sm items-center">
-            <!-- Corregido: apunta a la raíz '/' (welcome) -->
-            <a href="{{ url('/') }}" class="hover:underline font-medium">Inicio</a>
-            <a href="{{ route('sector.productos') }}" class="hover:underline">Productos</a>
-            <a href="{{ route('sector.contacto') }}" class="hover:underline">Contacto</a>
-            <a href="{{ route('login') }}" class="bg-white text-orange-700 px-3 py-1 rounded font-semibold hover:bg-orange-100 transition">Ingresar</a>
+
+        <!-- Enlaces con espaciado individual (gap) -->
+        <div class="flex items-center gap-6 text-sm mt-2 sm:mt-0">
+            <a href="{{ url('/') }}" class="hover:text-orange-200 font-medium transition">
+                Inicio
+            </a>
+            <a href="{{ route('sector.productos') }}" class="hover:text-orange-200 font-medium transition">
+                Productos
+            </a>
+            <a href="{{ route('sector.contacto') }}" class="hover:text-orange-200 font-medium transition">
+                Ladrilleras
+            </a>
+            <a href="{{ route('contact.create') }}" class="hover:text-orange-200 font-medium transition">
+                Escríbenos
+            </a>
+            <a href="{{ route('login') }}" class="bg-white text-orange-800 hover:bg-orange-100 px-4 py-2 rounded-md font-semibold transition shadow-sm">
+                Ingresar
+            </a>
         </div>
     </nav>
 
