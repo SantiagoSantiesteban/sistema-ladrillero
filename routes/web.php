@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OptimizacionController;
+use App\Http\Controllers\ReceivedEmailController;
 
 // Ruta publica
 Route::get('/', function () {
@@ -60,6 +61,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::patch('/usuarios/{user}/rol', [AdminController::class, 'editarRol'])->name('usuarios.rol');
     Route::delete('/usuarios/{user}', [AdminController::class, 'eliminarUsuario'])->name('usuarios.eliminar');
     Route::get('/optimizacion', [OptimizacionController::class, 'medirConsultas'])->name('optimizacion');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/correos', [ReceivedEmailController::class, 'index'])->name('emails.index');
+    Route::get('/correos/{id}', [ReceivedEmailController::class, 'show'])->name('emails.show');
 });
 
 Route::get('/contacto', [ContactController::class, 'create'])->name('contact.create');

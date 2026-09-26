@@ -16,6 +16,12 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    @auth
+                        <x-nav-link :href="route('emails.index')" :active="request()->routeIs('emails.*')">
+                            {{ __('Correos Recibidos') }}
+                        </x-nav-link>
+                    @endauth
+
                     @if(Auth::user()?->esTrabajador())
                         <x-nav-link :href="route('trabajador.index')" :active="request()->routeIs('trabajador.*')">
                             {{ __('Mi Disponibilidad') }}
@@ -103,6 +109,12 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @auth
+                <x-responsive-nav-link :href="route('emails.index')" :active="request()->routeIs('emails.*')">
+                    {{ __('Correos Recibidos') }}
+                </x-responsive-nav-link>
+            @endauth
 
             @if(Auth::user()?->esTrabajador())
                 <x-responsive-nav-link :href="route('trabajador.index')" :active="request()->routeIs('trabajador.*')">
