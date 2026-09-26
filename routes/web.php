@@ -9,6 +9,7 @@ use App\Http\Controllers\SectorController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OptimizacionController;
 use App\Http\Controllers\ReceivedEmailController;
+use App\Http\Controllers\BannerController;
 
 // Ruta publica
 Route::get('/', function () {
@@ -66,6 +67,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/correos', [ReceivedEmailController::class, 'index'])->name('emails.index');
     Route::get('/correos/{id}', [ReceivedEmailController::class, 'show'])->name('emails.show');
+    Route::resource('admin/banners', BannerController::class)->names([
+        'index'   => 'admin.banners.index',
+        'create'  => 'admin.banners.create',
+        'store'   => 'admin.banners.store',
+        'edit'    => 'admin.banners.edit',
+        'update'  => 'admin.banners.update',
+        'destroy' => 'admin.banners.destroy',
+    ]);
 });
 
 Route::get('/contacto', [ContactController::class, 'create'])->name('contact.create');

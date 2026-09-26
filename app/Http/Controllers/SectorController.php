@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Banner;
 
 class SectorController extends Controller
 {
     public function index()
     {
-        return view('sector.index');
+        // Consulta los banners activos y dentro del rango de fechas
+        $banners = Banner::visible()->get();
+
+        return view('sector.index', compact('banners'));
     }
 
     public function productos()

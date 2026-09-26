@@ -3,6 +3,10 @@
        class="px-4 py-2 rounded-lg text-sm font-medium transition {{ request()->routeIs('admin.index') ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
         Resumen
     </a>
+    <a href="{{ route('admin.banners.index') }}"
+       class="px-4 py-2 rounded-lg text-sm font-medium transition {{ request()->routeIs('admin.banners.*') ? 'bg-orange-600 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+        Banners
+    </a>
     <a href="{{ route('admin.usuarios') }}"
        class="px-4 py-2 rounded-lg text-sm font-medium transition {{ request()->routeIs('admin.usuarios') ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
         Usuarios
