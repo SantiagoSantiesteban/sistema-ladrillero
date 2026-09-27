@@ -10,6 +10,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OptimizacionController;
 use App\Http\Controllers\ReceivedEmailController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ServiceController;
 
 // Ruta publica
 Route::get('/', function () {
@@ -74,6 +75,14 @@ Route::middleware(['auth'])->group(function () {
         'edit'    => 'admin.banners.edit',
         'update'  => 'admin.banners.update',
         'destroy' => 'admin.banners.destroy',
+    ]);
+    Route::resource('admin/services', ServiceController::class)->names([
+        'index'   => 'admin.services.index',
+        'create'  => 'admin.services.create',
+        'store'   => 'admin.services.store',
+        'edit'    => 'admin.services.edit',
+        'update'  => 'admin.services.update',
+        'destroy' => 'admin.services.destroy',
     ]);
 });
 

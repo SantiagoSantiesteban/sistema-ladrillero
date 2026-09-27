@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Banner;
+use App\Models\Service;
 
 class SectorController extends Controller
 {
@@ -17,7 +18,10 @@ class SectorController extends Controller
 
     public function productos()
     {
-        return view('sector.productos');
+        // Consulta los productos/servicios activos ordenados por posición
+        $services = Service::visible()->get();
+
+        return view('sector.productos', compact('services'));
     }
 
     public function contacto()

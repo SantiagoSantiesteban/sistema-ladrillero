@@ -1,4 +1,4 @@
-<div class="flex items-center space-x-1 bg-white rounded-xl shadow-sm border border-gray-100 p-2 mb-6">
+<div class="flex items-center space-x-1 bg-white rounded-xl shadow-sm border border-gray-100 p-2 mb-6 overflow-x-auto">
     <a href="{{ route('admin.index') }}"
        class="px-4 py-2 rounded-lg text-sm font-medium transition {{ request()->routeIs('admin.index') ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
         Resumen
@@ -6,6 +6,10 @@
     <a href="{{ route('admin.banners.index') }}"
        class="px-4 py-2 rounded-lg text-sm font-medium transition {{ request()->routeIs('admin.banners.*') ? 'bg-orange-600 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
         Banners
+    </a>
+    <a href="{{ route('admin.services.index') }}"
+       class="px-4 py-2 rounded-lg text-sm font-medium transition {{ request()->routeIs('admin.services.*') ? 'bg-orange-600 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+        Productos / Servicios
     </a>
     <a href="{{ route('admin.usuarios') }}"
        class="px-4 py-2 rounded-lg text-sm font-medium transition {{ request()->routeIs('admin.usuarios') ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
