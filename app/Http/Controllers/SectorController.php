@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Banner;
 use App\Models\Service;
+use App\Models\AboutSection;
 
 class SectorController extends Controller
 {
@@ -27,5 +28,13 @@ class SectorController extends Controller
     public function contacto()
     {
         return view('sector.contacto');
+    }
+
+    public function nosotros()
+    {
+        // Consulta las secciones activas ordenadas por posición
+        $sections = AboutSection::visible()->get();
+
+        return view('sector.nosotros', compact('sections'));
     }
 }

@@ -11,16 +11,18 @@ use App\Http\Controllers\OptimizacionController;
 use App\Http\Controllers\ReceivedEmailController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\AboutSectionController;
 
-// Ruta publica
+// Ruta pública de inicio
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Rutas publicas sector ladrillero
+// Rutas públicas del Sector Ladrillero
 Route::prefix('sector')->name('sector.')->group(function () {
     Route::get('/', [SectorController::class, 'index'])->name('index');
     Route::get('/productos', [SectorController::class, 'productos'])->name('productos');
+    Route::get('/nosotros', [SectorController::class, 'nosotros'])->name('nosotros'); // Ruta agregada para el Módulo 3
     Route::get('/contacto', [SectorController::class, 'contacto'])->name('contacto');
 });
 
@@ -31,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Dashboard general
+// Dashboard general con redirección por rol
 Route::get('/dashboard', function () {
     $user = auth()->user();
     if ($user->esAdmin()) {
@@ -43,20 +45,20 @@ Route::get('/dashboard', function () {
     }
 })->middleware('auth')->name('dashboard');
 
-// Rutas trabajador
+// Rutas Trabajador
 Route::middleware('auth')->prefix('trabajador')->name('trabajador.')->group(function () {
     Route::get('/', [TrabajadorController::class, 'index'])->name('index');
     Route::get('/disponibilidad', [TrabajadorController::class, 'editarDisponibilidad'])->name('disponibilidad');
     Route::post('/disponibilidad', [TrabajadorController::class, 'guardarDisponibilidad'])->name('disponibilidad.guardar');
 });
 
-// Rutas empleador
+// Rutas Empleador
 Route::middleware('auth')->prefix('empleador')->name('empleador.')->group(function () {
     Route::get('/', [EmpleadorController::class, 'index'])->name('index');
     Route::get('/buscar', [EmpleadorController::class, 'buscarTrabajadores'])->name('buscar');
 });
 
-// Rutas admin
+// Rutas Admin
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::get('/usuarios', [AdminController::class, 'usuarios'])->name('usuarios');
@@ -65,9 +67,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/optimizacion', [OptimizacionController::class, 'medirConsultas'])->name('optimizacion');
 });
 
+// Rutas protegidas de gestión administrativa (Banners, Servicios, Nosotros, Correos)
 Route::middleware(['auth'])->group(function () {
     Route::get('/correos', [ReceivedEmailController::class, 'index'])->name('emails.index');
     Route::get('/correos/{id}', [ReceivedEmailController::class, 'show'])->name('emails.show');
+
     Route::resource('admin/banners', BannerController::class)->names([
         'index'   => 'admin.banners.index',
         'create'  => 'admin.banners.create',
@@ -76,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
         'update'  => 'admin.banners.update',
         'destroy' => 'admin.banners.destroy',
     ]);
+
     Route::resource('admin/services', ServiceController::class)->names([
         'index'   => 'admin.services.index',
         'create'  => 'admin.services.create',
@@ -84,8 +89,18 @@ Route::middleware(['auth'])->group(function () {
         'update'  => 'admin.services.update',
         'destroy' => 'admin.services.destroy',
     ]);
+
+    Route::resource('admin/about', AboutSectionController::class)->names([
+        'index'   => 'admin.about.index',
+        'create'  => 'admin.about.create',
+        'store'   => 'admin.about.store',
+        'edit'    => 'admin.about.edit',
+        'update'  => 'admin.about.update',
+        'destroy' => 'admin.about.destroy',
+    ]);
 });
 
+// Formulario de Contacto Público
 Route::get('/contacto', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contacto', [ContactController::class, 'store'])
     ->middleware('throttle:5,1')

@@ -8,7 +8,7 @@
 </head>
 <body class="bg-gray-50">
 
-   <!-- Navbar Unificado del Sector -->
+    <!-- Navbar Unificado del Sector -->
     <nav class="bg-orange-700 text-white px-6 py-4 flex flex-wrap justify-between items-center shadow-md">
         <!-- Logo / Nombre -->
         <a href="{{ url('/') }}" class="group flex flex-col">
@@ -24,6 +24,9 @@
             <a href="{{ route('sector.productos') }}" class="hover:text-orange-200 font-medium transition">
                 Productos
             </a>
+            <a href="{{ route('sector.nosotros') }}" class="hover:text-orange-200 font-medium transition">
+                Nosotros
+            </a>
             <a href="{{ route('sector.contacto') }}" class="hover:text-orange-200 font-medium transition">
                 Ladrilleras
             </a>
@@ -36,22 +39,22 @@
         </div>
     </nav>
 
-    <!-- Hero Original a Pantalla Completa-->
+    <!-- Hero Original a Pantalla Completa -->
     @if(isset($banners) && $banners->isNotEmpty())
         <div class="relative bg-black text-white overflow-hidden shadow-md">
             @foreach($banners as $banner)
-                <!-- Altura controlada mediante CSS directo para no depender del compilador -->
+                <!-- Altura controlada mediante CSS directo -->
                 <div class="relative flex items-center justify-center" style="height: 580px;">
                     
-                    <!-- Imagen de fondo real, sin difuminados y con nitidez al 100% -->
+                    <!-- Imagen de fondo real -->
                     <img src="{{ asset('storage/' . $banner->image) }}" 
-                        alt="{{ $banner->title }}" 
-                        class="absolute inset-0 w-full h-full object-cover">
+                         alt="{{ $banner->title }}" 
+                         class="absolute inset-0 w-full h-full object-cover">
                     
-                    <!-- Sombra oscura ligera para contraste del texto -->
+                    <!-- Sombra oscura ligera -->
                     <div class="absolute inset-0 bg-black/40"></div>
 
-                    <!-- Textos centrados con sombra para máxima legibilidad -->
+                    <!-- Textos centrados -->
                     <div class="relative max-w-4xl mx-auto px-6 text-center z-10">
                         <h2 class="text-4xl md:text-5xl font-black tracking-tight mb-3 text-white uppercase" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.9);">
                             {{ $banner->title }}
@@ -65,7 +68,7 @@
 
                         @if($banner->button_text && $banner->button_url)
                             <a href="{{ $banner->button_url }}"
-                            class="inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 py-3.5 rounded-lg transition shadow-2xl border border-orange-400">
+                               class="inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 py-3.5 rounded-lg transition shadow-2xl border border-orange-400">
                                 {{ $banner->button_text }}
                             </a>
                         @endif
@@ -80,7 +83,7 @@
             <h2 class="text-4xl font-bold mb-4">Bienvenido al Sector Ladrillero de Patio Bonito</h2>
             <p class="text-xl text-orange-100 mb-8">Conoce nuestra comunidad, nuestros productos y cómo trabajamos</p>
             <a href="{{ route('sector.productos') }}"
-            class="bg-white text-orange-700 px-6 py-3 rounded-lg font-semibold hover:bg-orange-100 transition shadow-sm">
+               class="bg-white text-orange-700 px-6 py-3 rounded-lg font-semibold hover:bg-orange-100 transition shadow-sm">
                 Ver productos
             </a>
         </div>

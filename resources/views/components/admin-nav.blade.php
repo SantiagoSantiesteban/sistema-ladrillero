@@ -15,6 +15,11 @@
        class="px-4 py-2 rounded-lg text-sm font-medium transition {{ request()->routeIs('admin.usuarios') ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
         Usuarios
     </a>
+    <a href="{{ route('admin.about.index') }}"
+       class="px-4 py-2 rounded-lg text-sm font-medium transition {{ request()->routeIs('admin.about.*') ? 'bg-orange-600 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+        Nosotros / Institucional
+    </a>
+
     <a href="{{ route('admin.optimizacion') }}"
        class="px-4 py-2 rounded-lg text-sm font-medium transition {{ request()->routeIs('admin.optimizacion') ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
         Rendimiento
