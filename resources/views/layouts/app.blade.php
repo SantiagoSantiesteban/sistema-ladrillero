@@ -33,6 +33,16 @@
                 </header>
             @endisset
 
+            <!-- Alerta de Seguridad (Acceso Denegado) -->
+            @if(session('error'))
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center shadow-sm" role="alert">
+                        <strong class="font-bold">¡Acceso Denegado!</strong>
+                        <span class="block sm:inline">{{ session('error') }}</span>
+                    </div>
+                </div>
+            @endif
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}

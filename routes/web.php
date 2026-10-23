@@ -12,6 +12,7 @@ use App\Http\Controllers\ReceivedEmailController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AboutSectionController;
+use App\Http\Middleware\CheckAdminRole; // <-- Middleware importado aquí
 
 // Ruta pública de inicio
 Route::get('/', function () {
@@ -58,8 +59,8 @@ Route::middleware('auth')->prefix('empleador')->name('empleador.')->group(functi
     Route::get('/buscar', [EmpleadorController::class, 'buscarTrabajadores'])->name('buscar');
 });
 
-// Rutas Admin
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+// Rutas Admin (AHORA PROTEGIDAS CON CHECKADMINROLE)
+Route::middleware(['auth', CheckAdminRole::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::get('/usuarios', [AdminController::class, 'usuarios'])->name('usuarios');
     Route::patch('/usuarios/{user}/rol', [AdminController::class, 'editarRol'])->name('usuarios.rol');
@@ -67,8 +68,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/optimizacion', [OptimizacionController::class, 'medirConsultas'])->name('optimizacion');
 });
 
-// Rutas protegidas de gestión administrativa (Banners, Servicios, Nosotros, Correos)
-Route::middleware(['auth'])->group(function () {
+// Rutas protegidas de gestión administrativa (AHORA PROTEGIDAS CON CHECKADMINROLE)
+Route::middleware(['auth', CheckAdminRole::class])->group(function () {
     Route::get('/correos', [ReceivedEmailController::class, 'index'])->name('emails.index');
     Route::get('/correos/{id}', [ReceivedEmailController::class, 'show'])->name('emails.show');
 
