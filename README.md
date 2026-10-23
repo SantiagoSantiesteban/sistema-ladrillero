@@ -37,7 +37,7 @@ Proyecto PGC 2026-2 – Universidad de Cundinamarca, Ingeniería de Sistemas y C
    (agregue `-P 3307 -h 127.0.0.1` si usa el puerto 3307).
 6. Generar la clave de la aplicación: `php artisan key:generate`
 7. Crear las tablas y los usuarios de prueba: `php artisan migrate --seed`
-   (crea 11 tablas: 3 de dominio —users, disponibilidades, fechas_disponibles— y 8 del framework).
+   (crea 15 tablas: 7 de dominio —users, disponibilidades, fechas_disponibles, received_emails, banners, services, about_sections— y 8 del framework).
 8. Compilar los estilos y scripts: `npm run build`
 9. Levantar el servidor: `php artisan serve` y abrir http://127.0.0.1:8000
 
@@ -54,6 +54,8 @@ El rol de administrador no se puede elegir en el formulario de registro: solo lo
 ## Pruebas automatizadas
 `php artisan test`
 
+Ejecuta 39 pruebas (94 aserciones): 15 propias del sistema (registro por rol, disponibilidad, búsqueda por fecha y rango) y 24 que vienen con Laravel Breeze (autenticación y perfil).
+
 ## Respaldo y restauración de datos
 - Respaldo: `mysqldump -u root -P 3307 -h 127.0.0.1 sistema_ladrillero > backup.sql`
 - Restauración: `mysql -u root -P 3307 -h 127.0.0.1 sistema_ladrillero < backup.sql`
@@ -64,3 +66,7 @@ Scripts y resultados en `docs/medicion/`.
 
 ## Autores
 Yenderson Julián Silva Gómez · David Santiago Santiesteban Silva
+
+## Solución de problemas (Windows)
+- `composer install` con "Acceso denegado": use una carpeta fuera de OneDrive y ejecute `COMPOSER_MAX_PARALLEL_HTTP=1 composer install`.
+- Error de conexión (2002/2003): verifique que MySQL esté iniciado en XAMPP y que `DB_PORT` coincida con su puerto.
