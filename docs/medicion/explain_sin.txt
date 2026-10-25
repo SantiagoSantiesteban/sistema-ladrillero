@@ -1,0 +1,44 @@
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: users
+         type: ALL
+possible_keys: NULL
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 49878
+        Extra: Using where
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: disponibilidades
+         type: ALL
+possible_keys: NULL
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 37800
+        Extra: Using where
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: users
+         type: ALL
+possible_keys: NULL
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 49878
+        Extra: Using where
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: users
+         type: ALL
+possible_keys: NULL
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 49878
+        Extra: Using temporary; Using filesort
