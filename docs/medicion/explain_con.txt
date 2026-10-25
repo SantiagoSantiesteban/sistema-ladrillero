@@ -1,0 +1,44 @@
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: users
+         type: ALL
+possible_keys: idx_users_role
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 49832
+        Extra: Using where
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: disponibilidades
+         type: ref
+possible_keys: idx_disp_dias
+          key: idx_disp_dias
+      key_len: 1
+          ref: const
+         rows: 18424
+        Extra: Using index condition
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: users
+         type: const
+possible_keys: users_email_unique,idx_users_email
+          key: users_email_unique
+      key_len: 1022
+          ref: const
+         rows: 1
+        Extra: 
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: users
+         type: index
+possible_keys: NULL
+          key: idx_users_role
+      key_len: 1022
+          ref: NULL
+         rows: 49832
+        Extra: Using index
