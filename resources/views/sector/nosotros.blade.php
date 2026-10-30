@@ -69,11 +69,6 @@
         @endif
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white text-center py-6 mt-12">
-        <p class="text-sm">Sistema Web para la Gestión de Trabajadores en el Sector Ladrillero</p>
-        <p class="text-gray-400 text-xs mt-1">Vereda Patio Bonito, Nemocón, Cundinamarca</p>
-    </footer>
-
+    @include('layouts.footer')
 </body>
 </html>

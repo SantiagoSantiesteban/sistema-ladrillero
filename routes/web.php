@@ -107,4 +107,9 @@ Route::post('/contacto', [ContactController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('contact.store');
 
+// Rutas Legales (Políticas y Términos)
+Route::view('/terminos-y-condiciones', 'legales.terminos')->name('terminos');
+Route::view('/politica-de-cookies', 'legales.cookies')->name('cookies');
+Route::view('/politicas-de-seguridad', 'legales.seguridad')->name('seguridad');
+
 require __DIR__.'/auth.php';

@@ -40,12 +40,18 @@
                         </x-nav-link>
                     @endif
 
-                    <x-nav-link :href="route('sector.index')" :active="request()->routeIs('sector.*')">
+                    <x-nav-link :href="route('sector.index')" :active="request()->routeIs('sector.index')">
                         {{ __('Sector Ladrillero') }}
                     </x-nav-link>
 
+                    <!-- Nuevo enlace agregado: Nosotros -->
+                    <x-nav-link :href="route('sector.nosotros')" :active="request()->routeIs('sector.nosotros')">
+                        {{ __('Nosotros') }}
+                    </x-nav-link>
+
+                    <!-- Nombre cambiado: Directorio Ladrilleras -->
                     <x-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
-                        {{ __('Contacto') }}
+                        {{ __('Directorio Ladrilleras') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -134,12 +140,18 @@
                 </x-responsive-nav-link>
             @endif
 
-            <x-responsive-nav-link :href="route('sector.index')" :active="request()->routeIs('sector.*')">
+            <x-responsive-nav-link :href="route('sector.index')" :active="request()->routeIs('sector.index')">
                 {{ __('Sector Ladrillero') }}
             </x-responsive-nav-link>
 
+            <!-- Nuevo enlace agregado en móvil: Nosotros -->
+            <x-responsive-nav-link :href="route('sector.nosotros')" :active="request()->routeIs('sector.nosotros')">
+                {{ __('Nosotros') }}
+            </x-responsive-nav-link>
+
+            <!-- Nombre cambiado en móvil: Directorio Ladrilleras -->
             <x-responsive-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
-                {{ __('Contacto') }}
+                {{ __('Directorio Ladrilleras') }}
             </x-responsive-nav-link>
         </div>
 

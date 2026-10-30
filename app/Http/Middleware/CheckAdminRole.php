@@ -11,10 +11,12 @@ class CheckAdminRole
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->rol === 'admin') {
+        // Aquí usamos el método esAdmin() que ya tienes programado en tu modelo User
+        if (Auth::check() && Auth::user()->esAdmin()) {
             return $next($request);
         }
 
-       return back()->with('error', 'Acceso denegado: Área exclusiva de administración.');
+        // Usamos redirect explícito para asegurar que nunca haya bucles de redirección
+        return redirect('/dashboard')->with('error', 'Acceso denegado: Área exclusiva de administración.');
     }
 }

@@ -257,19 +257,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 px-6">
-        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center space-x-2">
-                <svg class="h-6 w-6 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-                <span class="font-semibold">LadrilloWeb</span>
-            </div>
-            <p class="text-gray-400 text-sm text-center">Sistema Web para la Gestión de Trabajadores en el Sector Ladrillero</p>
-            <p class="text-gray-500 text-sm">Patio Bonito, Nemocón — 2026</p>
-        </div>
-    </footer>
-
+   @include('layouts.footer')
 </body>
 </html>
