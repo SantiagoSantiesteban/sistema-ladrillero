@@ -16,7 +16,7 @@ class CheckAdminRole
             return $next($request);
         }
 
-        // Usamos redirect explícito para asegurar que nunca haya bucles de redirección
-        return redirect('/dashboard')->with('error', 'Acceso denegado: Área exclusiva de administración.');
+        // Lanza la pantalla de error 403 nativa de Laravel para la evidencia
+        abort(403, '¡ACCESO DENEGADO! No tienes los permisos necesarios para entrar a esta zona administrativa.');
     }
 }
